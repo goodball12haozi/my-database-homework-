@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block title %}删除{% endblock %}
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+{% endblock %}
+ 
+ 
+{% block content %}
+
+    <nav class="navbar navbar-default">
+      <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#my-nav" aria-expanded="false">
+            <span class="sr-only">切换导航条</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">学生课程中心</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="my-nav">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="/adminuserlist/">用户信息表</a></li>
+            <li class="active"><a href="/adminstudentlist/">学生信息表</a></li>
+            <li class="active"><a href="/admingradelist/">成绩信息表</a></li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+              {% if request.session.is_login %}
+                  <li><a href="#">当前在线：{{ request.session.user_name }}</a></li>
+                  <li><a href="/logout/">登出</a></li>
+              {% else %}
+                  <li><a href="/login/">登录</a></li>
+                  <li><a href="/register/">注册</a></li>
+              {% endif %}
+          </ul>
+        </div><!-- /.navbar-collapse -->
+      </div><!-- /.container-fluid -->
+    </nav>
+
+    {% if request.session.is_login %}
+
+    <div class="container">
+        <div class="col-md-4 col-md-offset-4">
+          <form action="/deletestudent/" method="post">
+
+              {% csrf_token %}
+              <h2 class="text-center">这里是删除界面</h2>
+
+              <div class="input-group">
+                  <span class="input-group-addon">studentid</span>
+                  <input type="text" class="form-control" name="studentid" placeholder="studentid">
+              </div>
+
+              <button type="submit" class="btn btn-primary pull-right">提交</button>
+          </form>
+        </div>
+    </div> <!-- /container -->
+
+    {% else %}
+    <div class="container" align="center">
+        <h1>你尚未登录，只能访问公开内容！</h1>
+    </div>
+    {% endif %}
+
+{% endblock %}
